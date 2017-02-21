@@ -8,6 +8,7 @@ import java.util.Calendar;
  * Created by pestano on 22/07/15.
  */
 @Entity
+@Table(name = "tweet")
 public class Tweet {
 
     @Id

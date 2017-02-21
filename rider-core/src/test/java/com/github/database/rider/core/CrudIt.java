@@ -1,7 +1,5 @@
 package com.github.database.rider.core;
 
-import static com.github.database.rider.core.util.EntityManagerProvider.em;
-import static com.github.database.rider.core.util.EntityManagerProvider.tx;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -18,7 +16,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
-@DBUnit(leakHunter = true)
+@DBUnit(leakHunter = true, caseSensitiveTableNames = true)
 public class CrudIt {
 
 
@@ -31,7 +29,7 @@ public class CrudIt {
 
 	@Test
 	@DataSet("yml/users.yml")
-	@DBUnit(leakHunter = false)
+	@DBUnit(leakHunter = false, caseSensitiveTableNames = true)
 	public void shouldListUsers() {
 		List<User> users = EntityManagerProvider.em().createQuery("select u from User u").getResultList();
 		assertThat(users).isNotNull().isNotEmpty().hasSize(2);

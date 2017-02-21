@@ -133,6 +133,8 @@ public class DataSetExecutorImpl implements DataSetExecutor {
             try {
                 if (databaseConnection == null || !dbUnitConfig.isCacheConnection()) {
                     initDatabaseConnection();
+                } else{
+                    configDatabaseProperties();
                 }
                 if (dataSetConfig.isDisableConstraints()) {
                     disableConstraints();
@@ -254,6 +256,8 @@ public class DataSetExecutorImpl implements DataSetExecutor {
         }
         return target;
     }
+
+
 
 
     private void configDatabaseProperties() throws SQLException {

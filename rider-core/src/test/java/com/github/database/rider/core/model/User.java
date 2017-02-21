@@ -1,9 +1,6 @@
 package com.github.database.rider.core.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
  * Created by pestano on 22/07/15.
  */
 @Entity
+@Table(name = "user")
 public class User {
 
     @Id
