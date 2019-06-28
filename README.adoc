@@ -134,7 +134,7 @@ public class UserIt {
    public EntityManagerProvider emProvider = EntityManagerProvider.instance("rules-it");
 
    @Rule
-   public DBUnitRule dbUnitRule = DBUnitRule.instance(emProvider.getConnection());
+   public DBUnitRule dbUnitRule = DBUnitRule.instance(emProvider.connection());
 
    @Test
    @DataSet(value = "datasets/yml/users.yml")
@@ -214,13 +214,13 @@ import static com.github.database.rider.util.EntityManagerProvider.instance;
 @RunWith(JUnit4.class)
 public class DataSetExecutorIt {
 
-    public EntityManagerProvider emProvider = instance("executor-it");
+    public static EntityManagerProvider emProvider = instance("executor-it");
 
     private static DataSetExecutorImpl executor;
 
     @BeforeClass
     public static void setup() {
-        executor = DataSetExecutorImpl.instance(new ConnectionHolderImpl(emProvider.getConnection()));
+        executor = DataSetExecutorImpl.instance(new ConnectionHolderImpl(emProvider.connection()));
     }
 
     @Test
@@ -251,7 +251,7 @@ public class ConnectionHolderIt {
 
     @Rule
     public DBUnitRule dbUnitRule = DBUnitRule.
-        instance(() -> emProvider.getConnection());
+        instance(() -> emProvider.connection());
 
     @Test
     @DataSet("yml/users.yml")
@@ -411,8 +411,8 @@ public class MultipleExecutorsIt {
 
     @BeforeClass
     public static void setup() { <1>
-        executors.add(DataSetExecutorImpl.instance("executor1", new ConnectionHolderImpl(instance("executor1-pu").getConnection())));
-        executors.add(DataSetExecutorImpl.instance("executor2", new ConnectionHolderImpl(instance("executor2-pu").getConnection())));
+        executors.add(DataSetExecutorImpl.instance("executor1", new ConnectionHolderImpl(instance("executor1-pu").connection())));
+        executors.add(DataSetExecutorImpl.instance("executor2", new ConnectionHolderImpl(instance("executor2-pu").connection())));
     }
 
     @Test
@@ -443,10 +443,10 @@ Also note that the same can be done using @Rule but pay attention that you must 
     public EntityManagerProvider emProvider2 = EntityManagerProvider.instance("dataset2-pu");
 
     @Rule
-    public DBUnitRule exec1Rule = DBUnitRule.instance("exec1",emProvider1.getConnection());<1>
+    public DBUnitRule exec1Rule = DBUnitRule.instance("exec1",emProvider1.connection());<1>
 
     @Rule
-    public DBUnitRule exec2Rule = DBUnitRule.instance("exec2",emProvider2.getConnection());
+    public DBUnitRule exec2Rule = DBUnitRule.instance("exec2",emProvider2.connection());
 
     @Test
     @DataSet(value = "datasets/yml/users.yml",disableConstraints = true, executorId = "exec1") <2>
@@ -1144,7 +1144,7 @@ NOTE: You can use @BeforeClass instead of junit rule to instantiate the provider
 
 IMPORTANT: EntityManagerProvider will cache entity manager instance to avoid creating database multiple times, you just need to be careful with JPA first level cache between tests (EntityManagerProvider Rule and <<DBUnit Interceptor,CDI interceptor>> clears first level cache before each test).
 
-Now you can use emProvider.getConnection() to retrieve jdbc connection and emProvider.em() to retrieve underlying entityManager.
+Now you can use emProvider.connection() to retrieve jdbc connection and emProvider.em() to retrieve underlying entityManager.
 
 *PU-NAME* refers to test persistence.xml unit name:
 
